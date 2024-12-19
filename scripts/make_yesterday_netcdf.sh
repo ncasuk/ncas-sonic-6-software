@@ -1,5 +1,7 @@
 #!/bin/bash
 
-date=$(date -d "yesterday" -u +"%Y%m%d")
+DATE=$(date -d "yesterday" -u +"%Y%m%d")
 
-./make_netcdf.sh $date
+DIR=$(dirname "$(readlink -f "$0")")
+
+${DIR}/make_netcdf.sh $DATE
