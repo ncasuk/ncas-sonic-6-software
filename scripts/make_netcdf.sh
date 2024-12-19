@@ -5,7 +5,7 @@ DATE=$1
 DIR=$(dirname "$(readlink -f "$0")")
 
 # activate mamba environment
-mamba activate sonic6
+conda activate sonic6
 
 # check file exists
 if [ ! -f /gws/pw/j07/ncas_obs_vol1/cvao/raw_data/ncas-sonic-6/data/20241127_longterm/${DATE:0:4}/${DATE:4:2}/${DATE}_ncas-sonic-6.csv ]; then
