@@ -1,0 +1,32 @@
+{
+    "instrument_software": "not applicable",
+    "instrument_software_version": "not applicable",
+    "creator_name": "Joshua Hampton",
+    "creator_email": "joshua.hampton@ncas.ac.uk",
+    "creator_url": "https://orcid.org/0000-0001-7430-8655",
+    "processing_software_url": "https://github.com/ncasuk/ncas-sonic-6-software",
+    "processing_software_version": "1.0.0",
+    "calibration_sensitivity": "not applicable",
+    "calibration_certification_date": "not applicable",
+    "calibration_certification_url": "not applicable",
+    "sampling_interval": "1 second",
+    "averaging_interval": "1 second",
+    "product_version": "v1.0",
+    "processing_level": {
+        "value": 1,
+        "type": "int"
+    },  
+    "project": "NCAS Cape Verde Long Term Observations",
+    "project_principal_investigator": "Katie Read",
+    "project_principal_investigator_email": "katie.read@ncas.ac.uk",
+    "project_principal_investigator_url": "https://orcid.org/0000-0002-4044-455X",
+    "platform_type": "stationary_platform",
+    "title": "Wind measurements from 2D Sonic Anemometer at Cape Verde Atmospheric Observatory",
+    "featureType": "timeSeries",
+    "platform_altitude": "10 m",
+    "location_keywords": "São Vicente, Cabo Verde",
+    "comment": "None",
+    "latitude": 16.864089,
+    "longitude": -24.867709,
+    "geospatial_bounds": "16.864089N, -24.867709E"
+}
