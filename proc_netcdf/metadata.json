@@ -5,13 +5,13 @@
     "creator_email": "joshua.hampton@ncas.ac.uk",
     "creator_url": "https://orcid.org/0000-0001-7430-8655",
     "processing_software_url": "https://github.com/ncasuk/ncas-sonic-6-software",
-    "processing_software_version": "1.0.0",
+    "processing_software_version": "1.1.0",
     "calibration_sensitivity": "not applicable",
     "calibration_certification_date": "not applicable",
     "calibration_certification_url": "not applicable",
     "sampling_interval": "1 second",
     "averaging_interval": "1 second",
-    "product_version": "v1.0",
+    "product_version": "v1.1",
     "processing_level": {
         "value": 1,
         "type": "int"
