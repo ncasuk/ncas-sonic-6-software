@@ -60,7 +60,7 @@ def check_wind_dir_consistency(df, aws_7_file, diff=45):
     df = find_closest_time_match(df, aws_7)
     new_status = []
     for i in range(len(df)):
-        if df["status"][i] in ["00", 0] and df["winddir"][i] != "NULL":
+        if df["status"][i] in ["00", 0] and df["winddir"][i] not in ["NULL", None, 500]:
             if 360-diff > abs(df["wind_from_direction"][i] - float(df["winddir"][i])) > diff:
                 new_status.append(8)
             else:
