@@ -51,14 +51,11 @@ def check_wind_dir_consistency(df, aws_7_file, diff=45):
     if aws_7_file is not None:
         aws_7 = pl.read_csv(aws_7_file, columns=["Timestamp (UTC)", "Winddir / °"], new_columns=["time", "winddir"])
         aws_7 = aws_7.with_columns(pl.col("time").str.to_datetime("%Y-%m-%d %H:%M:%S", time_zone="UTC"))
-        print("Read AWS-7 data")
     else:
         raise ValueError("No data files provided for consistency check")
 
     # check wind direction consistency
-    print("Finding closest time match")
     df = find_closest_time_match(df, aws_7)
-    print("found")
     new_status = []
     for i in range(len(df)):
         if df["status"][i] in ["00", 0] and df["winddir"][i] != "NULL":
