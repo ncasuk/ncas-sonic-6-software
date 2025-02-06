@@ -42,6 +42,8 @@ def find_closest_time_match(df_small: pl.DataFrame, df_large: pl.DataFrame) -> p
                 break
         if closest_match:
             combined_row = {**row, **{k: v for k, v in closest_match.items() if k != "time"}}
+            if "winddir" in combined_row.keys() and combined_row["winddir"] in [None, "NULL"]:
+                combined_row["winddir"] = 500.
             df_combined.append(combined_row)
     return pl.DataFrame(df_combined)
 
@@ -49,7 +51,7 @@ def find_closest_time_match(df_small: pl.DataFrame, df_large: pl.DataFrame) -> p
 def check_wind_dir_consistency(df, aws_7_file, diff=45):
     # read data and convert times to datetime
     if aws_7_file is not None:
-        aws_7 = pl.read_csv(aws_7_file, columns=["Timestamp (UTC)", "Winddir / °"], new_columns=["time", "winddir"], null_values="NULL")
+        aws_7 = pl.read_csv(aws_7_file, columns=["Timestamp (UTC)", "Winddir / °"], new_columns=["time", "winddir"], null_values="NULL", schema_overrides = {"Winddir / °": pl.datatypes.Float64})
         aws_7 = aws_7.with_columns(pl.col("time").str.to_datetime("%Y-%m-%d %H:%M:%S", time_zone="UTC"))
     else:
         raise ValueError("No data files provided for consistency check")
