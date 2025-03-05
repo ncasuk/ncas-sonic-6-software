@@ -19,7 +19,10 @@ import polars as pl
 import numpy as np
 import ncas_amof_netcdf_template as nant
 import datetime as dt
+import re
 
+DATE_REGEX = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}" 
+d = re.compile(DATE_REGEX)
 
 def find_closest_time_match(df_small: pl.DataFrame, df_large: pl.DataFrame) -> pl.DataFrame:
     if "time" not in df_small.columns or not all(isinstance(x, dt.datetime) for x in df_small["time"]):
@@ -74,9 +77,48 @@ def check_wind_dir_consistency(df, aws_7_file, diff=45):
     return df
 
 
+def proc_line(line, proc_lines):
+    if not (m := d.search(line)):
+        return proc_lines
+    start_point = m.start()
+    line = line[start_point:]
+    split_line = line.split(",", 6)
+    last_part = split_line[-1]
+    if last_part[:4].endswith("\n"):
+        proc_lines.append(line)
+    else:
+        proc = split_line[:-1]
+        proc.append(last_part[:3])
+        proc_lines.append(",".join(proc))
+        proc_line(last_part[4:], proc_lines = proc_lines)
+    return proc_lines
+
+
+def preprocess_data(infile):
+    all_proc_lines = []
+    with open(infile, "r") as f:
+        data = f.readlines()
+    for line in data:
+        all_proc_lines.extend(proc_line(line, []))
+    split_data = [line.strip().split(",") for line in all_proc_lines]
+    df = pl.DataFrame(
+        split_data,
+        schema=[
+            ("time", str),
+            ("node", str),
+            ("gill_u", pl.Float64),
+            ("gill_v", pl.Float64),
+            ("units", str),
+            ("status", pl.Int64),
+            ("check", str),
+        ],
+    )
+    return df
+
+
 def main(infile, outdir="./", metadata_file="metadata.json", aws_7_file=None):
     # read data
-    df = pl.read_csv(infile, has_header=False, new_columns=["time", "node", "gill_u", "gill_v", "units", "status", "check"])
+    df = preprocess_data(infile)
     
     # convert wind speed units if needed
     if (df["units"] != "M").any():
