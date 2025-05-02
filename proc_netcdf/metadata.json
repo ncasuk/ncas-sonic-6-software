@@ -5,7 +5,7 @@
     "creator_email": "joshua.hampton@ncas.ac.uk",
     "creator_url": "https://orcid.org/0000-0001-7430-8655",
     "processing_software_url": "https://github.com/ncasuk/ncas-sonic-6-software",
-    "processing_software_version": "1.2.0",
+    "processing_software_version": "1.3.0",
     "calibration_sensitivity": "not applicable",
     "calibration_certification_date": "not applicable",
     "calibration_certification_url": "not applicable",
@@ -25,7 +25,7 @@
     "featureType": "timeSeries",
     "platform_altitude": "10 m",
     "location_keywords": "São Vicente, Cabo Verde",
-    "comment": "None",
+    "comment": "Data is automatically processed, no manual checking or quality control is done.",
     "latitude": 16.864089,
     "longitude": -24.867709,
     "geospatial_bounds": "16.864089N, -24.867709E"
