@@ -1,5 +1,8 @@
 # ncas-sonic-6-software
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15322282.svg)](https://doi.org/10.5281/zenodo.15322282)
+
+
 Processing code for converting data from the Gill 2D Sonic Anemometer into netCDF files conforming to the NCAS General Standard.
 
 ## Scripts
