@@ -65,7 +65,7 @@ def check_wind_dir_consistency(df, aws_7_file, diff=45):
     for i in range(len(df)):
         if df["status"][i] in ["00", 0] and df["winddir"][i] not in ["NULL", None, 500]:
             if 360-diff > abs(df["wind_from_direction"][i] - float(df["winddir"][i])) > diff:
-                new_status.append(8)
+                new_status.append(5)
             else:
                 new_status.append(df["status"][i])
         else:
@@ -201,7 +201,7 @@ def main(infile, outdir="./", metadata_file="metadata.json", aws_7_file=None):
     
     # Check status codes to create qc flag data
     qc_vals = []
-    qc_meanings = ["not_used", "good_data", "insufficient_samples_in_average_period_along_u_axis", "insufficient_samples_in_average_period_along_v_axis", "insufficient_samples_in_average_period_along_both_axis", "wind_direction_inconsistent_with_other_weather_stations"]
+    qc_meanings = ["not_used", "good_data", "insufficient_samples_in_average_period_along_u_axis", "insufficient_samples_in_average_period_along_v_axis", "insufficient_samples_in_average_period_along_both_axis", "wind_direction_inconsistent_with_other_weather_stations", "nvm_checksum_failed", "rom_checksum_failed", "unrecognized_status_code_reported_by_instrument"]
     
     for s in df["status"]:
         if s in ["00", 0]:
@@ -216,12 +216,18 @@ def main(infile, outdir="./", metadata_file="metadata.json", aws_7_file=None):
         elif s in ["04", 4]:
             # both axis
             qc_vals.append(4)
-        elif s in ["08", 8]:
+        elif s in ["05", 5]:
             # inconsistent with other weather stations
             qc_vals.append(5)
+        elif s in ["08", 8]:
+            # nvm checksum failed
+            qc_vals.append(6)
+        elif s in ["09", 9]:
+            # rom checksum failed
+            qc_vals.append(7)
         else:
-            print(s)
-            raise ValueError("Unknown status code")
+            # unknown status code
+            qc_vals.append(8)
     
     # Update qc meanings and add qc data
     for varname in ["qc_flag_wind_component_eastward", "qc_flag_wind_component_northward", "qc_flag_wind_speed", "qc_flag_wind_direction"]:
